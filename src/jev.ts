@@ -87,7 +87,8 @@ function unwrap(payload: unknown): Record<string, unknown> | null {
     const inner = root[key]
     if (inner && typeof inner === 'object' && !Array.isArray(inner)) {
       const record = inner as Record<string, unknown>
-      if ('choice' in record || 'level' in record || 'probabilities' in record || 'distribution' in record) {
+      if ('choice' in record || 'option' in record || 'level' in record
+        || 'probabilities' in record || 'distribution' in record) {
         return record
       }
     }
@@ -178,7 +179,8 @@ export function reduceChoice(payload: unknown, options: string[]): JevChoiceAnsw
   const rawDistribution = record.probabilities ?? record.probs ?? record.distribution ?? record.weights
   const distribution = reduceDistribution(rawDistribution, options)
 
-  const rawPick = record.choice ?? record.level ?? record.label ?? record.selected ?? record.index
+  const rawPick = record.choice ?? record.option ?? record.level ?? record.label
+    ?? record.selected ?? record.index
   let choice = reducePick(rawPick, options)
 
   if (choice < 0 && distribution) choice = argmax(distribution)
