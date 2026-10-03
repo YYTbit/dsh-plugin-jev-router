@@ -251,8 +251,9 @@ The free function is stateless. `JevRouter` adds the sticky hold, the receipt lo
 
 ## Related projects
 
+- [metajev](https://github.com/YYTbit/metajev) -- the general form of what this plugin does per turn. Decisions are keyed by state, question, and model; thresholds and routing live in a policy that reads the record, so a preference change costs no model calls.
+- [dsh-plugin-jev-compaction](https://github.com/YYTbit/dsh-plugin-jev-compaction) -- the other end of the same context problem. This plugin decides which model serves a turn; that one decides which messages survive to reach it.
 - [dsh-plugin-meta-memory](https://github.com/YYTbit/dsh-plugin-meta-memory) -- structured long-term memory for DeepSeek Harness
-- [dsh-plugin-jev-compaction](https://github.com/YYTbit/dsh-plugin-jev-compaction) -- Jev-scored context compaction for DeepSeek Harness
 
 ## License
 
