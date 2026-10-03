@@ -58,7 +58,7 @@ One turn is routed by the first rule that applies.
 
 1. **Escalation.** A pattern from `escalateOn` matched the summary, so the turn is known hard and Jev is not asked. The default candidate's model at its highest configured effort takes it, and the sticky hold is re-armed. The built-in patterns cover stack traces in both Python and JavaScript form, `AssertionError`, failing test counts, `why does`, race conditions, flaky and intermittent failures, deadlocks, migrations, and refactors across a codebase.
 2. **Fast path.** The summary is under `trivialMaxBytes`, opens with a read-only verb such as `cat`, `ls`, `show`, `grep` or `git diff`, and contains no reasoning marker such as `explain`, `debug` or `compare`. The cheapest candidate takes it. The reasoning guard is what keeps `read the failing test output and explain why the assertion fails` out of the fast path.
-3. **Sticky.** A previous expensive route is still held, so the same candidate is served without asking Jev again. A candidate is held for `stickyTurns` turns after an escalation or a confident Jev decision above the cheapest option. The hold counts down, and a decision on the cheapest candidate releases it. The fast path and the fallback leave it untouched, so a read-only turn or a degraded endpoint cannot pin the next turn.
+3. **Sticky.** A previous expensive route is still held, so the same candidate is served without asking Jev again. A candidate is held for `stickyTurns` turns after an escalation or a confident Jev decision above the cheapest option. The hold counts down, and a decision on the cheapest candidate releases it. The fast path and the fallback leave it untouched, so a read-only turn or a degraded endpoint cannot pin the next turn. Because a held turn skips the Jev request entirely, set `stickyTurns: 0` when testing or debugging the Jev path itself, or the hold will answer before your test reaches the client.
 4. **Jev.** One `choice` question over the candidate labels. The state is the request plus a short digest of recent tool activity, which is what makes failing command output visible to the decision. A confidence at or above `minConfidence` takes the answer.
 5. **Fallback.** A low-confidence answer, a missing key, a non-200, a timeout, or a response that names no option routes to `defaultCandidate` and records the reason. Routing cannot fail a turn.
 
@@ -131,7 +131,8 @@ The response is read tolerantly. A `probabilities` array over the options, a `pr
     # A Jev answer below this confidence routes to the default candidate.
     minConfidence: 0.5
     # Turns a candidate stays pinned after an escalation or an expensive Jev
-    # choice. 0 disables the hold.
+    # choice. 0 disables the hold, which is the setting to use when testing or
+    # debugging the Jev path, since a held turn skips the request entirely.
     stickyTurns: 1
     # Extra escalation patterns, appended to the built-in defaults.
     escalateOn: []
