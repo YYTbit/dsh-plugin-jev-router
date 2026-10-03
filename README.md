@@ -29,23 +29,15 @@ The router asks Jev one `choice` question per turn over the candidate table that
 
 ## Install
 
-The package is not on npm yet, so npm installs it from the repository. That
-route runs the build for you, because npm executes the `prepare` script for a
-git dependency and makes the devDependencies available to it.
-
 ```sh
-npm install github:YYTbit/dsh-plugin-jev-router
+dsh plugin --profile your-profile add dsh-plugin-jev-router
 ```
 
-Or from a checkout:
-
 ```sh
-git clone https://github.com/YYTbit/dsh-plugin-jev-router
-cd dsh-plugin-jev-router
-npm install          # installs the toolchain and builds lib/
+npm install dsh-plugin-jev-router
 ```
 
-Register the plugin with your profile, then set the key and the endpoint once:
+Set the key and the endpoint once:
 
 ```sh
 export JEV_API_KEY=...
