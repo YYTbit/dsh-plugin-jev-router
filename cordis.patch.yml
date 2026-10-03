@@ -1,0 +1,17 @@
+- insert:
+    - id: jev-router
+      name: dsh-plugin-jev-router
+      inject: []
+      config:
+        minConfidence: 0.5
+        stickyTurns: 1
+        trivialMaxBytes: 240
+        maxSummaryBytes: 4000
+        timeoutMs: 2500
+        promptSection: false
+        candidates:
+          - { model: deepseek-v4-fast, effort: low, costPerMTokIn: 0.07, costPerMTokOut: 0.14 }
+          - { model: deepseek-v4, effort: low, costPerMTokIn: 0.28, costPerMTokOut: 0.42 }
+          - { model: deepseek-v4, effort: high, costPerMTokIn: 0.28, costPerMTokOut: 0.42 }
+          - { model: deepseek-reasoner, effort: high, costPerMTokIn: 0.55, costPerMTokOut: 2.19 }
+        defaultCandidate: deepseek-reasoner@high
